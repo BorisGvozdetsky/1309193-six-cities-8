@@ -1,13 +1,13 @@
-import Place from '../place/place';
 import Logo from '../logo/logo';
+import {Offer} from '../../types/offer';
+import PlaceList from '../place-list/place-list';
 
 type PageMainProps = {
-  placeCount: number,
-  offerCount: number,
+  offerCount: number;
+  offers: Offer[];
 }
 
-
-function PageMain({placeCount, offerCount}: PageMainProps): JSX.Element {
+function PageMain({offerCount, offers}: PageMainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -94,9 +94,7 @@ function PageMain({placeCount, offerCount}: PageMainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {
-                  new Array(placeCount).fill(null).map(() => (<Place key={Math.random()}/>))
-                }
+                <PlaceList offers={offers}/>
               </div>
             </section>
             <div className="cities__right-section">

@@ -1,7 +1,7 @@
 enum AppRoute {
   Favorites = '/favorites',
   Main =  '/',
-  Room = '/offer/:id?',
+  Room = '/offer/:id',
   SignIn = '/login',
 }
 
@@ -10,6 +10,5 @@ enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
-
 
 export {AppRoute, AuthorizationStatus};
