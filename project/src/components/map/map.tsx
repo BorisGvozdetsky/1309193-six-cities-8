@@ -4,9 +4,11 @@ import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
 import {Offer} from '../../types/offer';
 import {URL_MARKER_DEFAULT} from './const';
+import {MapType} from '../../const';
 
 type MapProps = {
   offers: Offer[];
+  mapType: string;
 };
 
 const defaultCustomIcon = leaflet.icon({
@@ -16,10 +18,12 @@ const defaultCustomIcon = leaflet.icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {offers} = props;
+  const {offers, mapType} = props;
   const city = offers[0];
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+  const isCityMap = mapType === MapType.City;
+  const isPropertyMap = mapType === MapType.Property;
 
   useEffect(() => {
     if (map) {
@@ -37,7 +41,7 @@ function Map(props: MapProps): JSX.Element {
   }, [map, offers]);
 
   return (
-    <section className="cities__map map" ref={mapRef}></section>
+    <section className={`map ${isCityMap ? 'cities__map' : ''} ${isPropertyMap ? 'property__map' : ''}`} ref={mapRef}></section>
   );
 }
 

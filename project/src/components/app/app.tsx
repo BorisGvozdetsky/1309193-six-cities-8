@@ -30,7 +30,7 @@ function App({offerCount, offers, reviews }: AppScreenProps): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <Property offer={offers[0]} reviews={reviews} />
+          <Property offer={offers[0]} reviews={reviews} offers={offers}/>
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <Login/>

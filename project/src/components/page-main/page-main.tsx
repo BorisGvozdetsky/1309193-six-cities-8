@@ -2,6 +2,7 @@ import Logo from '../logo/logo';
 import {Offer} from '../../types/offer';
 import PlaceList from '../place-list/place-list';
 import Map from '../map/map';
+import { MapType, PlaceType } from '../../const';
 
 type PageMainProps = {
   offerCount: number;
@@ -95,11 +96,11 @@ function PageMain({offerCount, offers}: PageMainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PlaceList offers={offers}/>
+                <PlaceList offers={offers} placeType={PlaceType.City}/>
               </div>
             </section>
             <div className="cities__right-section">
-              <Map offers={offers}/>
+              <Map offers={offers} mapType={MapType.City}/>
             </div>
           </div>
         </div>
