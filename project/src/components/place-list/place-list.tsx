@@ -4,9 +4,10 @@ import Place from '../place/place';
 
 type PlaceListProps = {
   offers: Offer[];
+  placeType: string;
 }
 
-function PlaceList({offers}: PlaceListProps): JSX.Element {
+function PlaceList({offers, placeType}: PlaceListProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activePlace, setActivePlace] = useState({});
   const handleMouseEnter = (place: Offer): void => {
@@ -17,7 +18,7 @@ function PlaceList({offers}: PlaceListProps): JSX.Element {
   };
   return (
     <>
-      {offers.map((offer) => <Place key={offer.id} offer={offer} handleMouseEnter={() => handleMouseEnter(offer)} handleMouseLeave={() => handleMouseLeave()}/>)}
+      {offers.map((offer) => <Place key={offer.id} offer={offer} placeType={placeType} handleMouseEnter={() => handleMouseEnter(offer)} handleMouseLeave={() => handleMouseLeave()}/>)}
     </>
   );
 }
