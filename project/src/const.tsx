@@ -1,3 +1,5 @@
+const CITIES = ['Paris','Cologne','Brussels','Amsterdam','Hamburg','Dusseldorf'];
+
 enum AppRoute {
   Favorites = '/favorites',
   Main =  '/',
@@ -21,4 +23,4 @@ enum PlaceType {
   Near = 'NEAR',
 }
 
-export {AppRoute, AuthorizationStatus, MapType, PlaceType};
+export {AppRoute, AuthorizationStatus, MapType, PlaceType, CITIES};

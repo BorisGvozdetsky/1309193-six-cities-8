@@ -27,6 +27,8 @@ function Map(props: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map) {
+      const {location: {latitude, longitude, zoom}} = city;
+      map.flyTo([latitude, longitude], zoom);
       offers.forEach((offer) => {
         leaflet
           .marker({
@@ -38,7 +40,7 @@ function Map(props: MapProps): JSX.Element {
           .addTo(map);
       });
     }
-  }, [map, offers]);
+  }, [map, city, offers]);
 
   return (
     <section className={`map ${isCityMap ? 'cities__map' : ''} ${isPropertyMap ? 'property__map' : ''}`} ref={mapRef}></section>

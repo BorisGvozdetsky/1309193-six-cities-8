@@ -137,6 +137,76 @@ const offers: Offer[] = [
     title: 'Beautiful & luxurious',
     type: 'apartment',
   },
+  {
+    bedrooms: 3,
+    city: {
+      location: {
+        latitude: 48.8566,
+        longitude: 2.3522,
+        zoom: 10,
+      },
+      name: 'Paris',
+    },
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
+    host: {
+      avatarUrl: 'img/1.png',
+      id: 3,
+      isPro: true,
+      name: 'Angelina',
+    },
+    id: 5,
+    images: ['img/1.png', 'img/2.png'],
+    isFavorite: false,
+    isPremium: true,
+    location: {
+      latitude: 48.85664345645,
+      longitude: 2.25226406198,
+      zoom: 8,
+    },
+    maxAdults: 4,
+    previewImage:  'img/room.jpg',
+    price: 150,
+    rating: 3.8,
+    title: 'Beautiful & luxurious',
+    type: 'apartment',
+  },
+  {
+    bedrooms: 3,
+    city: {
+      location: {
+        latitude: 50.9375,
+        longitude: 6.9603,
+        zoom: 10,
+      },
+      name: 'Cologne',
+    },
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
+    host: {
+      avatarUrl: 'img/1.png',
+      id: 3,
+      isPro: true,
+      name: 'Angelina',
+    },
+    id: 6,
+    images: ['img/1.png', 'img/2.png'],
+    isFavorite: false,
+    isPremium: true,
+    location: {
+      latitude: 50.93753943508,
+      longitude: 6.9603406198,
+      zoom: 8,
+    },
+    maxAdults: 4,
+    previewImage:  'img/room.jpg',
+    price: 150,
+    rating: 3.8,
+    title: 'Beautiful & luxurious',
+    type: 'apartment',
+  },
+
+
 ];
 
 export {offers};

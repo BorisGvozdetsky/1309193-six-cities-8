@@ -1,15 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import App from './components/app/app';
 import {offers} from './mocks/offers';
 import { reviews } from './mocks/reviews';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import {reducer} from './store/reducer';
 
-const Setting = {
-  OFFER_COUNT: 312,
-};
+
+const store = createStore(reducer, composeWithDevTools());
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App offerCount = {Setting.OFFER_COUNT} offers = {offers} reviews={reviews}/>
+    <Provider store = {store}>
+      <App offers = {offers} reviews={reviews}/>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'));
