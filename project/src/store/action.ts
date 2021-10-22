@@ -1,4 +1,4 @@
-import { ActionType, ResetCityAction, SwitchCityAction, SwitchOffersAction } from '../types/action';
+import { ActionType, ResetCityAction, SwitchCityAction, SwitchOffersAction, SwitchSortTypeAction } from '../types/action';
 import { Offer } from '../types/offer';
 
 
@@ -16,4 +16,9 @@ const resetCity = (): ResetCityAction => ({
   type: ActionType.ResetCity,
 });
 
-export {switchCity, switchOffers, resetCity};
+const switchSortType = (sortType: string): SwitchSortTypeAction => ({
+  type: ActionType.SwitchSortType,
+  payload: sortType,
+});
+
+export {switchCity, switchOffers, resetCity, switchSortType};

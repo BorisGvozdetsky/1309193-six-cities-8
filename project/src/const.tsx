@@ -23,4 +23,11 @@ enum PlaceType {
   Near = 'NEAR',
 }
 
-export {AppRoute, AuthorizationStatus, MapType, PlaceType, CITIES};
+enum SortType {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRated = 'Top rated first',
+}
+
+export {AppRoute, AuthorizationStatus, MapType, PlaceType, SortType, CITIES};

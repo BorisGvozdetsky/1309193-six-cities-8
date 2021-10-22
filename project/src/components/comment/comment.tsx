@@ -1,5 +1,5 @@
 import { Review } from '../../types/review';
-import { addRatingPercent } from '../../utils/utils';
+import { addRatingPercent, formatDate, formatDateAttribute } from '../../utils/utils';
 
 type CommentProps = {
   review: Review;
@@ -24,7 +24,7 @@ function Comment(props: CommentProps): JSX.Element {
           </div>
         </div>
         <p className="reviews__text">{review.comment}</p>
-        <time className="reviews__time" dateTime="2019-04-24">{review.date}</time>
+        <time className="reviews__time" dateTime={formatDateAttribute(review.date)}>{formatDate(review.date)}</time>
       </div>
     </li>
   );

@@ -1,24 +1,23 @@
-import { useState } from 'react';
 import {Offer} from '../../types/offer';
 import Place from '../place/place';
 
 type PlaceListProps = {
   offers: Offer[];
   placeType: string;
+  handlePlaceMouseEnter: (placeId: number) => void;
+  handlePlaceMouseLeave: () => void;
 }
 
-function PlaceList({offers, placeType}: PlaceListProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [activePlace, setActivePlace] = useState({});
+function PlaceList({offers, placeType, handlePlaceMouseEnter, handlePlaceMouseLeave}: PlaceListProps): JSX.Element {
   const handleMouseEnter = (place: Offer): void => {
-    setActivePlace(place);
+    handlePlaceMouseEnter(place.id);
   };
   const handleMouseLeave = (): void => {
-    setActivePlace({});
+    handlePlaceMouseLeave();
   };
   return (
     <>
-      {offers.map((offer) => <Place key={offer.id} offer={offer} placeType={placeType} handleMouseEnter={() => handleMouseEnter(offer)} handleMouseLeave={() => handleMouseLeave()}/>)}
+      {offers.map((offer) => <Place key={offer.id} offer={offer} placeType={placeType} handleMouseEnter={() => handleMouseEnter(offer)} handleMouseLeave={() => handleMouseLeave}/>)}
     </>
   );
 }

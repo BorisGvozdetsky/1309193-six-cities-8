@@ -12,10 +12,13 @@ type PropertyProps = {
   offer: Offer;
   offers: Offer[];
   reviews: Review[];
+  selectedPoint?: Offer | undefined;
+  handlePlaceMouseEnter: (placeId: number) => void;
+  handlePlaceMouseLeave: () => void;
 }
 
 function Property(props: PropertyProps): JSX.Element {
-  const {offer, offers, reviews} = props;
+  const {offer, offers, reviews, selectedPoint, handlePlaceMouseEnter, handlePlaceMouseLeave} = props;
   const {id, rating, isPremium, images, title, price, host, isFavorite, type, bedrooms, maxAdults, goods, description} = offer;
   const nearPlaces = offers.slice(0,3);
   return (
@@ -100,13 +103,13 @@ function Property(props: PropertyProps): JSX.Element {
               <CommentForm/>
             </section>
           </div>
-          <Map offers={offers} mapType={MapType.Property}/>
+          <Map offers={offers} mapType={MapType.Property} selectedPoint={selectedPoint}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <PlaceList offers={nearPlaces} placeType={PlaceType.Near}/>
+              <PlaceList offers={nearPlaces} placeType={PlaceType.Near} handlePlaceMouseEnter={handlePlaceMouseEnter} handlePlaceMouseLeave={handlePlaceMouseLeave}/>
             </div>
           </section>
         </div>

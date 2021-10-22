@@ -4,4 +4,8 @@ const addRatingPercent = (value: number): number => {
   return ratingPercent;
 };
 
-export {addRatingPercent};
+const formatDate = (date: string): string => new Date(date).toLocaleDateString('en-US', {month: 'long', year: 'numeric'});
+
+const formatDateAttribute = (date: string): string => new Date(date).toLocaleDateString('en-CA');
+
+export {addRatingPercent, formatDate, formatDateAttribute};
