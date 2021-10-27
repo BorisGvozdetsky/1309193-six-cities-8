@@ -12,10 +12,11 @@ type PropertyProps = {
   offer: Offer;
   offers: Offer[];
   reviews: Review[];
+  selectedOffer?: Offer | undefined;
 }
 
 function Property(props: PropertyProps): JSX.Element {
-  const {offer, offers, reviews} = props;
+  const {offer, offers, reviews, selectedOffer} = props;
   const {id, rating, isPremium, images, title, price, host, isFavorite, type, bedrooms, maxAdults, goods, description} = offer;
   const nearPlaces = offers.slice(0,3);
   return (
@@ -100,7 +101,7 @@ function Property(props: PropertyProps): JSX.Element {
               <CommentForm/>
             </section>
           </div>
-          <Map offers={offers} mapType={MapType.Property}/>
+          <Map offers={offers} mapType={MapType.Property} selectedOffer={selectedOffer}/>
         </section>
         <div className="container">
           <section className="near-places places">

@@ -4,6 +4,7 @@ enum ActionType {
   SwitchCity = 'main/switchCity',
   SwitchOffers = 'main/switchOffers',
   ResetCity = 'main/resetCity',
+  SwitchSortType = 'main/switchSortType'
 }
 
 
@@ -16,10 +17,18 @@ type SwitchOffersAction = {
   type: ActionType.SwitchOffers;
   payload: Offer[];
 };
+
 type ResetCityAction = {
   type: ActionType.ResetCity;
 };
 
-export type Actions = SwitchCityAction | SwitchOffersAction | ResetCityAction;
+type SwitchSortTypeAction = {
+  type: ActionType.SwitchSortType;
+  payload: string;
+};
+
+type Actions = SwitchCityAction | SwitchOffersAction | ResetCityAction | SwitchSortTypeAction;
+
 export {ActionType};
-export type {SwitchCityAction, SwitchOffersAction, ResetCityAction};
+
+export type {Actions, SwitchCityAction, SwitchOffersAction, ResetCityAction, SwitchSortTypeAction};

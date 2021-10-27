@@ -3,12 +3,13 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
 import {Offer} from '../../types/offer';
-import {URL_MARKER_DEFAULT} from './const';
+import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from './const';
 import {MapType} from '../../const';
 
 type MapProps = {
   offers: Offer[];
   mapType: string;
+  selectedOffer?: Offer | undefined;
 };
 
 const defaultCustomIcon = leaflet.icon({
@@ -17,8 +18,15 @@ const defaultCustomIcon = leaflet.icon({
   iconAnchor: [14, 39],
 });
 
+const currentCustomIcon = leaflet.icon({
+  iconUrl: URL_MARKER_CURRENT,
+  iconSize: [27, 39],
+  iconAnchor: [14, 39],
+});
+
+
 function Map(props: MapProps): JSX.Element {
-  const {offers, mapType} = props;
+  const {offers, mapType, selectedOffer} = props;
   const city = offers[0];
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -35,12 +43,12 @@ function Map(props: MapProps): JSX.Element {
             lat: offer.location.latitude,
             lng: offer.location.longitude,
           }, {
-            icon: defaultCustomIcon,
+            icon: (selectedOffer !== undefined && offer.id === selectedOffer.id) ? currentCustomIcon : defaultCustomIcon,
           })
           .addTo(map);
       });
     }
-  }, [map, city, offers]);
+  }, [map, city, offers, selectedOffer]);
 
   return (
     <section className={`map ${isCityMap ? 'cities__map' : ''} ${isPropertyMap ? 'property__map' : ''}`} ref={mapRef}></section>
