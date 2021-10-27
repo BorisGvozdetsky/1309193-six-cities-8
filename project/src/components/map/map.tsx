@@ -9,7 +9,7 @@ import {MapType} from '../../const';
 type MapProps = {
   offers: Offer[];
   mapType: string;
-  selectedPoint?: Offer | undefined;
+  selectedOffer?: Offer | undefined;
 };
 
 const defaultCustomIcon = leaflet.icon({
@@ -26,7 +26,7 @@ const currentCustomIcon = leaflet.icon({
 
 
 function Map(props: MapProps): JSX.Element {
-  const {offers, mapType, selectedPoint} = props;
+  const {offers, mapType, selectedOffer} = props;
   const city = offers[0];
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -43,12 +43,12 @@ function Map(props: MapProps): JSX.Element {
             lat: offer.location.latitude,
             lng: offer.location.longitude,
           }, {
-            icon: (selectedPoint !== undefined && offer.id === selectedPoint.id) ? currentCustomIcon : defaultCustomIcon,
+            icon: (selectedOffer !== undefined && offer.id === selectedOffer.id) ? currentCustomIcon : defaultCustomIcon,
           })
           .addTo(map);
       });
     }
-  }, [map, city, offers, selectedPoint]);
+  }, [map, city, offers, selectedOffer]);
 
   return (
     <section className={`map ${isCityMap ? 'cities__map' : ''} ${isPropertyMap ? 'property__map' : ''}`} ref={mapRef}></section>

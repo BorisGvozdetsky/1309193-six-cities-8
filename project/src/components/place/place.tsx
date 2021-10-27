@@ -6,7 +6,7 @@ import { addRatingPercent } from '../../utils/utils';
 type PlaceProps = {
   offer: Offer;
   placeType: string;
-  handleMouseEnter?: () => void;
+  handleMouseEnter?: (offerId: number) => void;
   handleMouseLeave?: () => void;
 }
 
@@ -16,8 +16,17 @@ function Place(props: PlaceProps): JSX.Element {
   const isCityPlace = placeType === PlaceType.City;
   const isNearPlace = placeType === PlaceType.Near;
 
+  const onMouseEnter = () => {
+    handleMouseEnter && handleMouseEnter(offer.id);
+  };
+
+  const onMouseLeave = () => {
+    handleMouseLeave && handleMouseLeave();
+  };
+
+
   return (
-    <article id={`${id}`} className={`place-card ${isCityPlace ? 'cities__place-card' : ''} ${isNearPlace ? 'near-places__card' : ''}`}   onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <article id={`${id}`} className={`place-card ${isCityPlace ? 'cities__place-card' : ''} ${isNearPlace ? 'near-places__card' : ''}`}   onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       {isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>

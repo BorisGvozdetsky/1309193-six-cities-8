@@ -11,12 +11,8 @@ import Header from '../header/header';
 import MainEmpty from '../main-empty/main-empty';
 import Sort from '../sort/sort';
 import { Offer } from '../../types/offer';
+import { useState } from 'react';
 
-type PageMainProps = {
-  selectedPoint?: Offer | undefined;
-  handlePlaceMouseEnter: (placeId: number) => void;
-  handlePlaceMouseLeave: () => void;
-}
 
 const mapStateToProps = ({ currentCity, offers, activeSortType }: State) => (
   { currentCity, offers, activeSortType }
@@ -31,11 +27,21 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PageMainProps & PropsFromRedux;
 
-function PageMain(props: ConnectedComponentProps): JSX.Element {
-  const {offers, currentCity, activeSortType, selectedPoint, handleCitySwitch, handlePlaceMouseEnter, handlePlaceMouseLeave} = props;
+function PageMain(props: PropsFromRedux): JSX.Element {
+  const {offers, currentCity, activeSortType, handleCitySwitch} = props;
   const cityOffers = offers.filter((offer) => currentCity === offer.city.name);
+
+  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(undefined);
+  const handlePlaceMouseEnter = (placeId: number) => {
+    const currentOffer = offers.find((offer) => offer.id === placeId);
+    setSelectedOffer(currentOffer);
+  };
+
+  const handlePlaceMouseLeave = () => {
+    setSelectedOffer(undefined);
+  };
+
   switch(activeSortType){
     case SortType.PriceHighToLow:
       cityOffers.sort((a, b) => b.price - a.price);
@@ -68,7 +74,7 @@ function PageMain(props: ConnectedComponentProps): JSX.Element {
                   </div>
                 </section>
                 <div className="cities__right-section">
-                  <Map offers={cityOffers} mapType={MapType.City} selectedPoint={selectedPoint}/>
+                  <Map offers={cityOffers} mapType={MapType.City} selectedOffer={selectedOffer}/>
                 </div>
               </div>
             </div>

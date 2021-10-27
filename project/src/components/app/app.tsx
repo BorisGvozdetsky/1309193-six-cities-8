@@ -8,7 +8,6 @@ import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import {Offer} from '../../types/offer';
 import { Review } from '../../types/review';
-import { useState } from 'react';
 
 type AppScreenProps = {
   offers: Offer[];
@@ -16,21 +15,12 @@ type AppScreenProps = {
 }
 
 function App({offers, reviews }: AppScreenProps): JSX.Element {
-  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
-  const handlePlaceMouseEnter = (placeId: number) => {
-    const currentPoint = offers.find((offer) => offer.id === placeId);
-    setSelectedPoint(currentPoint);
-  };
-
-  const handlePlaceMouseLeave = () => {
-    setSelectedPoint(undefined);
-  };
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <PageMain selectedPoint={selectedPoint} handlePlaceMouseEnter={handlePlaceMouseEnter} handlePlaceMouseLeave={handlePlaceMouseLeave}/>
+          <PageMain/>
         </Route>
         <PrivateRoute
           exact
@@ -40,7 +30,7 @@ function App({offers, reviews }: AppScreenProps): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <Property offer={offers[0]} reviews={reviews} offers={offers} selectedPoint={selectedPoint} handlePlaceMouseEnter={handlePlaceMouseEnter} handlePlaceMouseLeave={handlePlaceMouseLeave}/>
+          <Property offer={offers[0]} reviews={reviews} offers={offers}/>
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <Login/>
