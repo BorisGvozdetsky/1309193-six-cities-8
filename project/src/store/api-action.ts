@@ -6,13 +6,13 @@ import {AuthData} from '../types/auth-data';
 import { OfferResponse } from '../types/offer';
 import { adaptOfferToClient } from '../services/adapter';
 
-const fetchOffersAction = (): ThunkActionResult =>
+const fetchOffers = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<OfferResponse[]>(APIRoute.Offers);
     dispatch(loadOffers(data.map((hotel) => adaptOfferToClient(hotel))));
   };
 
-const checkAuthAction = (): ThunkActionResult =>
+const checkAuth = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.get(APIRoute.Login)
       .then(() => {
@@ -20,18 +20,18 @@ const checkAuthAction = (): ThunkActionResult =>
       });
   };
 
-const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
+const login = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
   };
 
-const logoutAction = (): ThunkActionResult =>
+const logout = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireLogout());
   };
 
-export {fetchOffersAction, checkAuthAction, loginAction, logoutAction};
+export {fetchOffers, checkAuth, login, logout};

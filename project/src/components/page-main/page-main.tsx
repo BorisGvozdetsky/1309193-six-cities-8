@@ -7,7 +7,7 @@ import { Actions } from '../../types/action';
 import { State } from '../../types/state';
 import Header from '../header/header';
 import PlaceContainer from '../place-container/place-container';
-import LoaderSpinner from '../loader-spinner/loader-spinner';
+import Spinner from '../spinner/spinner';
 
 
 const mapStateToProps = ({ currentCity, offers, activeSortType, authorizationStatus, isDataLoaded}: State) => ({
@@ -53,7 +53,7 @@ function PageMain(props: PropsFromRedux): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList currentCity={currentCity} handleCitySwitch={handleCitySwitch}/>
-        {!isDataLoaded ? <LoaderSpinner/> : <PlaceContainer currentCity={currentCity} cityOffers={cityOffers} hasNoOffers={hasNoOffers}/>}
+        {!isDataLoaded ? <Spinner/> : <PlaceContainer currentCity={currentCity} cityOffers={cityOffers} hasNoOffers={hasNoOffers}/>}
       </main>
     </div>
   );

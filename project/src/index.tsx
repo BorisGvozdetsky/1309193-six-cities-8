@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import App from './components/app/app';
 import { reviews } from './mocks/reviews';
-import {createStore} from 'redux';
-import {Provider} from 'react-redux';
-import {reducer} from './store/reducer';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { reducer } from './store/reducer';
 import { createAPI } from './services/api';
 import { requireAuthorization } from './store/action';
 import { AuthorizationStatus } from './const';
 import { applyMiddleware } from '@reduxjs/toolkit';
 import { ThunkAppDispatch } from './types/action';
-import { checkAuthAction, fetchOffersAction } from './store/api-action';
+import { checkAuth, fetchOffers } from './store/api-action';
 import thunk from 'redux-thunk';
 
 const api = createAPI(
@@ -25,8 +25,8 @@ const store = createStore(
   ),
 );
 
-(store.dispatch as ThunkAppDispatch)(checkAuthAction());
-(store.dispatch as ThunkAppDispatch)(fetchOffersAction());
+(store.dispatch as ThunkAppDispatch)(checkAuth());
+(store.dispatch as ThunkAppDispatch)(fetchOffers());
 
 ReactDOM.render(
   <React.StrictMode>

@@ -8,7 +8,7 @@ enum ActionType {
   SwitchCity = 'main/switchCity',
   SwitchOffers = 'main/switchOffers',
   ResetCity = 'main/resetCity',
-  SwitchSortType = 'main/switchSortType',
+  setSortType = 'main/setSortType',
   LoadOffers = 'data/loadOffers',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requiredLogout'
@@ -29,8 +29,8 @@ type ResetCityAction = {
   type: ActionType.ResetCity;
 };
 
-type SwitchSortTypeAction = {
-  type: ActionType.SwitchSortType;
+type setSortTypeAction = {
+  type: ActionType.setSortType;
   payload: SortType;
 };
 
@@ -45,13 +45,13 @@ type RequireAuthorizationAction = {
   payload: AuthorizationStatus;
 };
 
-type RequireLogoutAction = {
+type Requirelogout = {
   type: ActionType.RequireLogout,
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
 
-export type Actions = SwitchCityAction | SwitchOffersAction | ResetCityAction | SwitchSortTypeAction | LoadOffersAction | RequireAuthorizationAction | RequireLogoutAction;
+export type Actions = SwitchCityAction | SwitchOffersAction | ResetCityAction | setSortTypeAction | LoadOffersAction | RequireAuthorizationAction | Requirelogout;
 export {ActionType};
-export type {SwitchCityAction, SwitchOffersAction, ResetCityAction, LoadOffersAction, RequireAuthorizationAction, RequireLogoutAction, SwitchSortTypeAction};
+export type {SwitchCityAction, SwitchOffersAction, ResetCityAction, LoadOffersAction, RequireAuthorizationAction, Requirelogout, setSortTypeAction};

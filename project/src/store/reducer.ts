@@ -18,7 +18,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, currentCity: action.payload};
     case ActionType.SwitchOffers:
       return {...state, offers: action.payload};
-    case ActionType.SwitchSortType:
+    case ActionType.setSortType:
       return {...state, activeSortType: action.payload};
     case ActionType.ResetCity:
       return {...initialState};
