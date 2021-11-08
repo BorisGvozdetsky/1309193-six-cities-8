@@ -6,16 +6,24 @@ import PageMain from '../page-main/page-main';
 import Login from '../login/login';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import {Offer} from '../../types/offer';
 import { Review } from '../../types/review';
+import { State } from '../../types/state';
+import { connect, ConnectedProps } from 'react-redux';
 
 type AppScreenProps = {
-  offers: Offer[];
   reviews: Review[],
 }
 
-function App({offers, reviews }: AppScreenProps): JSX.Element {
+const mapStateToProps = ({offers}: State) => ({
+  offers,
+});
 
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ComponentConnectedProps = AppScreenProps & PropsFromRedux;
+
+function App({offers, reviews }: ComponentConnectedProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
@@ -43,4 +51,5 @@ function App({offers, reviews }: AppScreenProps): JSX.Element {
   );
 }
 
-export default App;
+export {App};
+export default connector(App);

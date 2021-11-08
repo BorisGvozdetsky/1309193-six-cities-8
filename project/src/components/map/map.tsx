@@ -43,7 +43,7 @@ function Map(props: MapProps): JSX.Element {
             lat: offer.location.latitude,
             lng: offer.location.longitude,
           }, {
-            icon: (selectedOffer !== undefined && offer.id === selectedOffer.id) ? currentCustomIcon : defaultCustomIcon,
+            icon: (selectedOffer !== undefined &&  offer.id === selectedOffer.id) ? currentCustomIcon : defaultCustomIcon,
           })
           .addTo(map);
       });

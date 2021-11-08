@@ -1,7 +1,12 @@
 import { SortType } from '../const';
-import { ActionType, ResetCityAction, SwitchCityAction, SwitchOffersAction, SwitchSortTypeAction } from '../types/action';
+import { ActionType, LoadOffersAction, RequireAuthorizationAction, Requirelogout, ResetCityAction, SwitchCityAction, SwitchOffersAction, setSortTypeAction} from '../types/action';
 import { Offer } from '../types/offer';
+import {AuthorizationStatus} from '../const';
 
+const setSortType = (sortType: SortType): setSortTypeAction => ({
+  type: ActionType.setSortType,
+  payload: sortType,
+});
 
 const switchCity = (name: string): SwitchCityAction => ({
   type: ActionType.SwitchCity,
@@ -17,9 +22,18 @@ const resetCity = (): ResetCityAction => ({
   type: ActionType.ResetCity,
 });
 
-const switchSortType = (sortType: SortType): SwitchSortTypeAction => ({
-  type: ActionType.SwitchSortType,
-  payload: sortType,
+const loadOffers = (offers: Offer[]): LoadOffersAction => ({
+  type: ActionType.LoadOffers,
+  payload: offers,
 });
 
-export {switchCity, switchOffers, resetCity, switchSortType};
+const requireAuthorization = (authStatus: AuthorizationStatus): RequireAuthorizationAction => ({
+  type: ActionType.RequireAuthorization,
+  payload: authStatus,
+});
+
+const requireLogout = (): Requirelogout => ({
+  type: ActionType.RequireLogout,
+});
+
+export {switchCity, switchOffers, resetCity, loadOffers, requireAuthorization, requireLogout, setSortType};
