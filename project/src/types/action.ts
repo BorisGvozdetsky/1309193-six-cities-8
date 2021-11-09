@@ -1,17 +1,20 @@
-import { AuthorizationStatus, SortType } from '../const';
+import { AppRoute, AuthorizationStatus, SortType } from '../const';
 import { Offer } from './offer';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
 import {State} from '../types/state';
+import { User } from './user';
 
 enum ActionType {
   SwitchCity = 'main/switchCity',
   SwitchOffers = 'main/switchOffers',
   ResetCity = 'main/resetCity',
-  setSortType = 'main/setSortType',
+  SetSortType = 'main/setSortType',
   LoadOffers = 'data/loadOffers',
   RequireAuthorization = 'user/requireAuthorization',
-  RequireLogout = 'user/requiredLogout'
+  RequireLogout = 'user/requiredLogout',
+  RedirectToRoute = 'user/redirectToRoute',
+  UserLogin = 'user/userLogin',
 }
 
 
@@ -29,8 +32,8 @@ type ResetCityAction = {
   type: ActionType.ResetCity;
 };
 
-type setSortTypeAction = {
-  type: ActionType.setSortType;
+type SetSortTypeAction = {
+  type: ActionType.SetSortType;
   payload: SortType;
 };
 
@@ -49,9 +52,19 @@ type Requirelogout = {
   type: ActionType.RequireLogout,
 }
 
+type RedirectToRouteAction = {
+  type: ActionType.RedirectToRoute;
+  payload: AppRoute;
+};
+
+type UserLoginAction = {
+  type: ActionType.UserLogin;
+  payload: User;
+};
+
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
 
-export type Actions = SwitchCityAction | SwitchOffersAction | ResetCityAction | setSortTypeAction | LoadOffersAction | RequireAuthorizationAction | Requirelogout;
+export type Actions = SwitchCityAction | SwitchOffersAction | ResetCityAction | SetSortTypeAction | LoadOffersAction | RequireAuthorizationAction | Requirelogout | RedirectToRouteAction | UserLoginAction;
 export {ActionType};
-export type {SwitchCityAction, SwitchOffersAction, ResetCityAction, LoadOffersAction, RequireAuthorizationAction, Requirelogout, setSortTypeAction};
+export type {SwitchCityAction, SwitchOffersAction, ResetCityAction, LoadOffersAction, RequireAuthorizationAction, Requirelogout, SetSortTypeAction, RedirectToRouteAction, UserLoginAction};

@@ -10,6 +10,7 @@ const initialState = {
   activeSortType: SortType.Popular,
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
+  user: null,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -18,7 +19,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, currentCity: action.payload};
     case ActionType.SwitchOffers:
       return {...state, offers: action.payload};
-    case ActionType.setSortType:
+    case ActionType.SetSortType:
       return {...state, activeSortType: action.payload};
     case ActionType.ResetCity:
       return {...initialState};
@@ -28,6 +29,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, authorizationStatus: action.payload, isDataLoaded: true};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
+    case ActionType.UserLogin:
+      return {...state, user: action.payload, authorizationStatus: AuthorizationStatus.Auth};
     default:
       return state;
   }

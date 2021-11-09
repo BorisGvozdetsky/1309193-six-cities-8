@@ -1,10 +1,11 @@
-import { SortType } from '../const';
-import { ActionType, LoadOffersAction, RequireAuthorizationAction, Requirelogout, ResetCityAction, SwitchCityAction, SwitchOffersAction, setSortTypeAction} from '../types/action';
+import { AppRoute, SortType } from '../const';
+import { ActionType, LoadOffersAction, RequireAuthorizationAction, Requirelogout, ResetCityAction, SwitchCityAction, SwitchOffersAction, RedirectToRouteAction, SetSortTypeAction, UserLoginAction} from '../types/action';
 import { Offer } from '../types/offer';
 import {AuthorizationStatus} from '../const';
+import { User } from '../types/user';
 
-const setSortType = (sortType: SortType): setSortTypeAction => ({
-  type: ActionType.setSortType,
+const setSortType = (sortType: SortType): SetSortTypeAction => ({
+  type: ActionType.SetSortType,
   payload: sortType,
 });
 
@@ -36,4 +37,14 @@ const requireLogout = (): Requirelogout => ({
   type: ActionType.RequireLogout,
 });
 
-export {switchCity, switchOffers, resetCity, loadOffers, requireAuthorization, requireLogout, setSortType};
+const redirectToRoute = (url: AppRoute): RedirectToRouteAction => ({
+  type: ActionType.RedirectToRoute,
+  payload: url,
+});
+
+const userLogin = (user: User): UserLoginAction => ({
+  type: ActionType.UserLogin,
+  payload: user,
+});
+
+export {switchCity, switchOffers, resetCity, loadOffers, requireAuthorization, requireLogout, setSortType, redirectToRoute, userLogin};
