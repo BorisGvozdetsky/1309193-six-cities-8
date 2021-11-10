@@ -1,10 +1,12 @@
 import {ThunkActionResult} from '../types/action';
-import {loadOffers, requireAuthorization, requireLogout} from './action';
-import {saveToken, dropToken, Token} from '../services/token';
-import {APIRoute, AuthorizationStatus} from '../const';
+import {loadOffers, redirectToRoute, requireLogout, userLogin} from './action';
+import {saveToken, dropToken} from '../services/token';
+import {APIRoute, AppRoute, AUTH_FAIL_MESSAGE, LOGIN_FAIL_MESSAGE} from '../const';
 import {AuthData} from '../types/auth-data';
 import { OfferResponse } from '../types/offer';
-import { adaptOfferToClient } from '../services/adapter';
+import { adaptOfferToClient, adaptUserToClient } from '../services/adapter';
+import { UserResponse } from '../types/user';
+import {toast} from 'react-toastify';
 
 const fetchOffers = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -14,17 +16,26 @@ const fetchOffers = (): ThunkActionResult =>
 
 const checkAuth = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then(() => {
-        dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      });
+    try {
+      const response = await api.get(APIRoute.Login);
+      if (response.status === 200) {
+        dispatch(userLogin(adaptUserToClient(response.data)));
+      }
+    } catch {
+      toast.info(AUTH_FAIL_MESSAGE);
+    }
   };
 
 const login = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
-    saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    try {
+      const {data} = await api.post<UserResponse>(APIRoute.Login, {email, password});
+      saveToken(data.token);
+      dispatch(userLogin(adaptUserToClient(data)));
+      dispatch(redirectToRoute(AppRoute.Main));
+    } catch {
+      toast.warn(LOGIN_FAIL_MESSAGE);
+    }
   };
 
 const logout = (): ThunkActionResult =>

@@ -8,8 +8,6 @@ type FavoritesProps = {
 
 function Favorites({offers}: FavoritesProps): JSX.Element {
   const favoritePlaces = offers.filter((offer) => offer.isFavorite);
-  // eslint-disable-next-line no-console
-  console.log(favoritePlaces);
   return (
     <div className="page">
       <Header isPageLogin={false}/>

@@ -1,5 +1,5 @@
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute} from '../../const';
+import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import Favorites from '../favorites/favorites';
 import Property from '../property/property';
 import PageMain from '../page-main/page-main';
@@ -9,6 +9,8 @@ import PrivateRoute from '../private-route/private-route';
 import { Review } from '../../types/review';
 import { State } from '../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
+import browserHistory from '../../browser-history';
+
 
 type AppScreenProps = {
   reviews: Review[],
@@ -23,9 +25,9 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ComponentConnectedProps = AppScreenProps & PropsFromRedux;
 
-function App({offers, reviews }: ComponentConnectedProps): JSX.Element {
+function App({offers, reviews}: ComponentConnectedProps): JSX.Element {
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <PageMain/>
@@ -34,7 +36,6 @@ function App({offers, reviews }: ComponentConnectedProps): JSX.Element {
           exact
           path={AppRoute.Favorites}
           render={() => <Favorites offers={offers}/>}
-          authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>

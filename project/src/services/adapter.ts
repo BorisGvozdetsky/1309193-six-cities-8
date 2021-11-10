@@ -1,4 +1,5 @@
 import { Offer, OfferResponse } from '../types/offer';
+import { User, UserResponse } from '../types/user';
 
 
 const adaptOfferToClient = (offer: OfferResponse): Offer => ({
@@ -36,4 +37,13 @@ const adaptOfferToClient = (offer: OfferResponse): Offer => ({
   type: offer.type,
 });
 
-export {adaptOfferToClient};
+const adaptUserToClient = (user: UserResponse): User => ({
+  avatarUrl: user.avatar_url,
+  email: user.email,
+  id: user.id,
+  isPro: user.is_pro,
+  name: user.name,
+  token: user.token,
+});
+
+export {adaptOfferToClient, adaptUserToClient};

@@ -1,8 +1,11 @@
 const CITIES = ['Paris','Cologne','Brussels','Amsterdam','Hamburg','Dusseldorf'];
+const AUTH_FAIL_MESSAGE = 'Do not forget to log in';
+const LOGIN_FAIL_MESSAGE = 'Please make sure all fields are filled correctly';
+
 
 enum AppRoute {
   Favorites = '/favorites',
-  Main =  '/',
+  Main = '/',
   Room = '/offer/:id',
   SignIn = '/login',
 }
@@ -36,4 +39,4 @@ enum APIRoute {
   Logout = '/logout',
 }
 
-export {AppRoute, AuthorizationStatus, MapType, PlaceType, APIRoute, SortType, CITIES};
+export {AppRoute, AuthorizationStatus, MapType, PlaceType, APIRoute, SortType, CITIES, LOGIN_FAIL_MESSAGE, AUTH_FAIL_MESSAGE};
