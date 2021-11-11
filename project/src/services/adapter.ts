@@ -1,5 +1,6 @@
 import { Offer, OfferResponse } from '../types/offer';
 import { User, UserResponse } from '../types/user';
+import {Review, ReviewFromServer} from '../types/review';
 
 
 const adaptOfferToClient = (offer: OfferResponse): Offer => ({
@@ -46,4 +47,17 @@ const adaptUserToClient = (user: UserResponse): User => ({
   token: user.token,
 });
 
-export {adaptOfferToClient, adaptUserToClient};
+const adaptReviewToClient = (review: ReviewFromServer): Review => ({
+  comment: review.comment,
+  date: review.date,
+  id: review.id,
+  rating: review.rating,
+  user: {
+    avatarUrl: review.user.avatar_url,
+    id: review.user.id,
+    isPro: review.user.is_pro,
+    name: review.user.name,
+  },
+});
+
+export {adaptOfferToClient, adaptUserToClient, adaptReviewToClient};

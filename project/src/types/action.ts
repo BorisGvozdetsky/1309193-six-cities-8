@@ -1,35 +1,34 @@
-import { AppRoute, AuthorizationStatus, SortType } from '../const';
+import { AppRoute, ReviewStatus, SortType } from '../const';
 import { Offer } from './offer';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
 import {State} from '../types/state';
 import { User } from './user';
+import { Reviews } from './review';
 
 enum ActionType {
   SwitchCity = 'main/switchCity',
-  SwitchOffers = 'main/switchOffers',
-  ResetCity = 'main/resetCity',
   SetSortType = 'main/setSortType',
   LoadOffers = 'data/loadOffers',
-  RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requiredLogout',
   RedirectToRoute = 'user/redirectToRoute',
   UserLogin = 'user/userLogin',
+  UploadReview = 'user/uploadReview',
+  LoadOffer = 'data/loadOffer',
+  LoadOfferComplete = 'data/loadOfferComplete',
+  LoadOfferError = 'data/loadOfferError',
+  LoadOffersNearby = 'data/loadOffersNearby',
+  LoadReviews = 'data/loadReviews',
+  UserLogout = 'user/logout',
 }
-
 
 type SwitchCityAction = {
   type: ActionType.SwitchCity;
   payload: string;
 };
 
-type SwitchOffersAction = {
-  type: ActionType.SwitchOffers;
-  payload: Offer[];
-};
-
-type ResetCityAction = {
-  type: ActionType.ResetCity;
+type LoadOfferAction = {
+  type: ActionType.LoadOffer;
 };
 
 type SetSortTypeAction = {
@@ -37,15 +36,9 @@ type SetSortTypeAction = {
   payload: SortType;
 };
 
-
 type LoadOffersAction = {
   type: ActionType.LoadOffers,
   payload: Offer[];
-};
-
-type RequireAuthorizationAction = {
-  type: ActionType.RequireAuthorization,
-  payload: AuthorizationStatus;
 };
 
 type Requirelogout = {
@@ -62,9 +55,33 @@ type UserLoginAction = {
   payload: User;
 };
 
+type UploadReviewAction = {
+  type: ActionType.UploadReview;
+  payload: ReviewStatus;
+}
+
+type LoadOfferCompleteAction = {
+  type: ActionType.LoadOfferComplete;
+  payload: Offer;
+};
+
+type LoadOfferErrorAction = {
+  type: ActionType.LoadOfferError;
+};
+
+type LoadOffersNearbyAction = {
+  type: ActionType.LoadOffersNearby;
+  payload: Offer[];
+};
+
+type LoadReviewsAction = {
+  type: ActionType.LoadReviews;
+  payload: Reviews;
+};
+
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
 
-export type Actions = SwitchCityAction | SwitchOffersAction | ResetCityAction | SetSortTypeAction | LoadOffersAction | RequireAuthorizationAction | Requirelogout | RedirectToRouteAction | UserLoginAction;
+export type Actions = SwitchCityAction | SetSortTypeAction | LoadOffersAction | LoadOfferAction | Requirelogout | RedirectToRouteAction | UserLoginAction | UploadReviewAction | LoadOfferCompleteAction | LoadOfferErrorAction | LoadOffersNearbyAction | LoadReviewsAction;
 export {ActionType};
-export type {SwitchCityAction, SwitchOffersAction, ResetCityAction, LoadOffersAction, RequireAuthorizationAction, Requirelogout, SetSortTypeAction, RedirectToRouteAction, UserLoginAction};
+export type {SwitchCityAction, LoadOffersAction, LoadOfferAction, Requirelogout, SetSortTypeAction, RedirectToRouteAction, UserLoginAction, UploadReviewAction, LoadOfferCompleteAction, LoadOfferErrorAction, LoadOffersNearbyAction, LoadReviewsAction};
