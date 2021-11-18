@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import App from './components/app/app';
-import { reviews } from './mocks/reviews';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { reducer } from './store/reducer';
@@ -35,7 +34,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
       <ToastContainer />
-      <App reviews={reviews}/>
+      <App/>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

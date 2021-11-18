@@ -6,15 +6,9 @@ import PageMain from '../page-main/page-main';
 import Login from '../login/login';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import { Review } from '../../types/review';
 import { State } from '../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
 import browserHistory from '../../browser-history';
-
-
-type AppScreenProps = {
-  reviews: Review[],
-}
 
 const mapStateToProps = ({offers}: State) => ({
   offers,
@@ -23,9 +17,9 @@ const mapStateToProps = ({offers}: State) => ({
 const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ComponentConnectedProps = AppScreenProps & PropsFromRedux;
 
-function App({offers, reviews}: ComponentConnectedProps): JSX.Element {
+function App(props: PropsFromRedux): JSX.Element {
+  const {offers} = props;
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
@@ -38,8 +32,8 @@ function App({offers, reviews}: ComponentConnectedProps): JSX.Element {
           render={() => <Favorites offers={offers}/>}
         >
         </PrivateRoute>
-        <Route exact path={AppRoute.Room}>
-          <Property offer={offers[0]} reviews={reviews} offers={offers}/>
+        <Route exact path={`${AppRoute.Room}/:id`}>
+          <Property />
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <Login/>

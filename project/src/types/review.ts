@@ -1,4 +1,3 @@
-
 type User = {
   avatarUrl: string;
   id: number;
@@ -10,8 +9,27 @@ type Review = {
   comment: string;
   date: string;
   id: number;
-  rating:number;
+  rating: number;
   user: User;
 }
 
-export type {Review};
+type ReviewFromServer = Omit<
+  Review,
+  | 'user'
+> & {
+  user: {
+    'avatar_url': string,
+    'id': number,
+    'is_pro': boolean,
+    'name': string,
+  }
+};
+
+type PostReview = {
+  comment: string;
+  rating: number;
+}
+
+type Reviews = Review[];
+
+export type {Review, User, ReviewFromServer, PostReview, Reviews};

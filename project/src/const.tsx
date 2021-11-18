@@ -1,12 +1,10 @@
 const CITIES = ['Paris','Cologne','Brussels','Amsterdam','Hamburg','Dusseldorf'];
-const AUTH_FAIL_MESSAGE = 'Do not forget to log in';
-const LOGIN_FAIL_MESSAGE = 'Please make sure all fields are filled correctly';
-
+const SERVER_RESPONSE_OK = 200;
 
 enum AppRoute {
   Favorites = '/favorites',
   Main = '/',
-  Room = '/offer/:id',
+  Room = '/offer',
   SignIn = '/login',
 }
 
@@ -37,6 +35,20 @@ enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
 }
 
-export {AppRoute, AuthorizationStatus, MapType, PlaceType, APIRoute, SortType, CITIES, LOGIN_FAIL_MESSAGE, AUTH_FAIL_MESSAGE};
+enum ReviewStatus {
+  Uploading = 'UPLOADING',
+  Uploaded = 'UPLOADED',
+  NotUploaded = 'NOT_UPLOADED',
+  Unknown = 'UNKNOWN',
+}
+
+enum ServiceMessage {
+  AuthFail = 'Do not forget to authirize',
+  LoginFail = 'Please fill in all the fields correctly',
+  PostReviewFail = 'Something went wrong, try again',
+}
+
+export {AppRoute, AuthorizationStatus, MapType, PlaceType, APIRoute, SortType, ReviewStatus, ServiceMessage, CITIES, SERVER_RESPONSE_OK};
