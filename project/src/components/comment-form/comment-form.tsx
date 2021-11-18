@@ -8,6 +8,7 @@ import {postReview} from '../../store/api-action';
 import {State} from '../../types/state';
 
 const MIN_COMMENT_LENGTH = 50;
+const MAX_COMMENT_LENGTH = 300;
 
 type CommentFormProps = {
   id: string,
@@ -33,27 +34,27 @@ type ConnectedComponentProps = CommentFormProps & PropsFromRedux;
 function CommentForm(props: ConnectedComponentProps): JSX.Element {
 
   const {id, isReviewUploading, isReviewUploaded, isReviewNotUploaded, handlePostReview} = props;
-  const [rating, setRating] = useState('');
+  const [rating, setRating] = useState(0);
 
   const [comment, setComment] = useState('');
-  const isFormComplete = comment.length > MIN_COMMENT_LENGTH && Boolean(rating);
+  const isFormComplete = comment.length > MIN_COMMENT_LENGTH && rating > 0;
 
   const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(evt.target.value);
   };
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setRating(evt.target.value);
+    setRating(Number(evt.target.value));
   };
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    handlePostReview({comment, rating: Number(rating)}, id);
+    handlePostReview({comment, rating: rating}, id);
   };
 
   useEffect(() => {
     if (isReviewUploaded) {
-      setRating('');
+      setRating(0);
       setComment('');
     }
   }, [isReviewUploaded]);
@@ -70,11 +71,11 @@ function CommentForm(props: ConnectedComponentProps): JSX.Element {
               type="radio"
               value={`${star.value}`}
               id={star.id}
-              checked={star.value === Number(rating)}
+              checked={star.value === rating}
               onChange={handleInputChange}
               disabled={isReviewUploading}
             />
-            <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
+            <label htmlFor={star.id} className="reviews__rating-label form__rating-label" title="perfect">
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star"></use>
               </svg>
@@ -88,7 +89,7 @@ function CommentForm(props: ConnectedComponentProps): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleTextareaChange}
-        maxLength={300}
+        maxLength={MAX_COMMENT_LENGTH}
         value={comment}
         disabled={isReviewUploading}
       >
