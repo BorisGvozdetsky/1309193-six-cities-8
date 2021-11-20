@@ -6,12 +6,13 @@ type PlaceListProps = {
   placeType: string;
   handlePlaceMouseEnter?: (placeId: number) => void;
   handlePlaceMouseLeave?: () => void;
+  handleFavoriteClick?: (offerId: number, isFavorite: boolean) => void;
 }
 
-function PlaceList({offers, placeType, handlePlaceMouseEnter, handlePlaceMouseLeave}: PlaceListProps): JSX.Element {
+function PlaceList({offers, placeType, handlePlaceMouseEnter, handlePlaceMouseLeave, handleFavoriteClick}: PlaceListProps): JSX.Element {
   return (
     <>
-      {offers.map((offer) => <Place key={offer.id} offer={offer} placeType={placeType} handleMouseEnter={handlePlaceMouseEnter} handleMouseLeave={handlePlaceMouseLeave}/>)}
+      {offers.map((offer) => <Place key={offer.id} offer={offer} placeType={placeType} onMouseEnter={handlePlaceMouseEnter} onMouseLeave={handlePlaceMouseLeave} onFavoriteClick={handleFavoriteClick}/>)}
     </>
   );
 }

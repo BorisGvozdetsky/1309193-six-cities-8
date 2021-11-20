@@ -1,16 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {composeWithDevTools} from 'redux-devtools-extension';
 import App from './components/app/app';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { reducer } from './store/reducer';
+import {rootReducer} from './store/root-reducer';
 import { createAPI } from './services/api';
 import { requireLogout } from './store/action';
-import { applyMiddleware } from '@reduxjs/toolkit';
-import { ThunkAppDispatch } from './types/action';
+import { configureStore } from '@reduxjs/toolkit';
 import { checkAuth, fetchOffers } from './store/api-action';
-import thunk from 'redux-thunk';
 import {redirect} from './store/middlewares/redirect';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,16 +15,18 @@ const api = createAPI(
   () => store.dispatch(requireLogout()),
 );
 
-const store = createStore(
-  reducer,
-  composeWithDevTools(
-    applyMiddleware(thunk.withExtraArgument(api)),
-    applyMiddleware(redirect),
-  ),
-);
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }).concat(redirect),
+});
 
-(store.dispatch as ThunkAppDispatch)(checkAuth());
-(store.dispatch as ThunkAppDispatch)(fetchOffers());
+store.dispatch(checkAuth());
+store.dispatch(fetchOffers());
 
 ReactDOM.render(
   <React.StrictMode>

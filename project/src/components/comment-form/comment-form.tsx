@@ -1,11 +1,9 @@
 import {FormEvent, Fragment, useState, ChangeEvent, useEffect} from 'react';
-import {connect, ConnectedProps} from 'react-redux';
-import {ThunkAppDispatch} from '../../types/action';
-import {PostReview} from '../../types/review';
+import {useDispatch, useSelector} from 'react-redux';
 import {ReviewStatus} from '../../const';
 import {ratingStars} from './const';
 import {postReview} from '../../store/api-action';
-import {State} from '../../types/state';
+import { getReviewStatus } from '../../store/review-data/selectors';
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 300;
@@ -14,26 +12,17 @@ type CommentFormProps = {
   id: string,
 }
 
-const mapStateToProps = ({reviewStatus}: State) => ({
-  isReviewUploading: reviewStatus === ReviewStatus.Uploading,
-  isReviewUploaded: reviewStatus === ReviewStatus.Uploaded,
-  isReviewNotUploaded: reviewStatus === ReviewStatus.NotUploaded,
-});
+function CommentForm(props: CommentFormProps): JSX.Element {
+  const reviewStatus = useSelector(getReviewStatus);
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  handlePostReview(review: PostReview, id: string) {
-    dispatch(postReview(review, id));
-  },
-});
+  const [isReviewUploading, isReviewUploaded, isReviewNotUploaded] = [
+    reviewStatus === ReviewStatus.Uploading,
+    reviewStatus === ReviewStatus.Uploaded,
+    reviewStatus === ReviewStatus.NotUploaded,
+  ];
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = CommentFormProps & PropsFromRedux;
-
-function CommentForm(props: ConnectedComponentProps): JSX.Element {
-
-  const {id, isReviewUploading, isReviewUploaded, isReviewNotUploaded, handlePostReview} = props;
+  const {id} = props;
   const [rating, setRating] = useState(0);
 
   const [comment, setComment] = useState('');
@@ -49,7 +38,7 @@ function CommentForm(props: ConnectedComponentProps): JSX.Element {
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    handlePostReview({comment, rating: rating}, id);
+    dispatch(postReview({comment, rating}, id));
   };
 
   useEffect(() => {
@@ -104,5 +93,4 @@ function CommentForm(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export {CommentForm};
-export default connector(CommentForm);
+export default CommentForm;

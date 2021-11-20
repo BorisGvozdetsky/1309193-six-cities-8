@@ -1,26 +1,18 @@
-import { Dispatch, useRef, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React from 'react';
+import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SortType } from '../../const';
 import { setSortType } from '../../store/action';
-import { Actions } from '../../types/action';
-import { State } from '../../types/state';
+import { getActiveSortType } from '../../store/app-data/selectors';
 
-const mapStateToProps = ({activeSortType}: State) => (
-  {activeSortType}
-);
+function Sort(): JSX.Element {
+  const activeSortType = useSelector(getActiveSortType);
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  handleSortChange: (activeSortType: SortType) => {
-    dispatch(setSortType(activeSortType));
-  },
-});
+  const handleSortChange = (sortType: SortType) => {
+    dispatch(setSortType(sortType));
+  };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Sort(props: PropsFromRedux): JSX.Element {
-  const {activeSortType, handleSortChange} = props;
   const [sortOptionActive, setSortOptionActive] = useState(false);
   const sortRef = useRef<HTMLFormElement | null >(null);
   const toggleSortDropdown = () => setSortOptionActive((prevSortOption) => !prevSortOption);
@@ -56,5 +48,4 @@ function Sort(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { Sort };
-export default connector(Sort);
+export default React.memo(Sort);

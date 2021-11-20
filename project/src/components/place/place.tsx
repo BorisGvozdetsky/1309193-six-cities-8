@@ -3,37 +3,62 @@ import { AppRoute, PlaceType } from '../../const';
 import {Offer} from '../../types/offer';
 import { addRatingPercent } from '../../utils/utils';
 
+const CardImageSize = {
+  default: {
+    height: '200',
+    width: '260',
+  },
+  favorite: {
+    height: '110',
+    width: '150',
+  },
+};
+
 type PlaceProps = {
   offer: Offer;
   placeType: string;
-  handleMouseEnter?: (offerId: number) => void;
-  handleMouseLeave?: () => void;
+  onMouseEnter?: (offerId: number) => void;
+  onMouseLeave?: () => void;
+  onFavoriteClick?: (offerId: number, isFavorite: boolean) => void;
 }
 
 function Place(props: PlaceProps): JSX.Element {
-  const {offer, placeType, handleMouseEnter, handleMouseLeave} = props;
+  const {offer, placeType, onMouseEnter, onMouseLeave, onFavoriteClick} = props;
   const {id, price, type, title, previewImage, isPremium, rating, isFavorite} = offer;
   const isCityPlace = placeType === PlaceType.City;
   const isNearPlace = placeType === PlaceType.Near;
+  const isFavoritePlace = placeType === PlaceType.Favorite;
 
-  const onMouseEnter = () => {
-    handleMouseEnter && handleMouseEnter(offer.id);
+  const handleMouseEnter = () => {
+    onMouseEnter && onMouseEnter(offer.id);
+  };
+  const handleMouseLeave = () => {
+    onMouseLeave && onMouseLeave();
   };
 
-  const onMouseLeave = () => {
-    handleMouseLeave && handleMouseLeave();
+  const handleFavoriteClick = () => {
+    onFavoriteClick && onFavoriteClick(id, isFavorite);
   };
-
 
   return (
-    <article id={`${id}`} className={`place-card ${isCityPlace ? 'cities__place-card' : ''} ${isNearPlace ? 'near-places__card' : ''}`}   onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <article
+      className={`place-card ${isCityPlace ? 'cities__place-card' : ''} ${isNearPlace ? 'near-places__card' : ''} ${isFavoritePlace ? 'favorites__card' : ''}`}
+      id={`${id}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>
         </div> : ''}
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place"/>
+      <div className={`place-card__image-wrapper ${isCityPlace ? 'cities__image-wrapper' : ''} ${isFavoritePlace ? 'favorites__image-wrapper' : ''}`}>
+        <Link to={`${AppRoute.Room}/${id}`}>
+          <img className="place-card__image"
+            src={previewImage}
+            width={!isFavoritePlace ? CardImageSize.default.width : CardImageSize.favorite.width}
+            height={!isFavoritePlace ? CardImageSize.default.height : CardImageSize.favorite.height}
+            alt="Place"
+          />
         </Link>
       </div>
       <div className="place-card__info">
@@ -42,7 +67,7 @@ function Place(props: PlaceProps): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button  button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
+          <button className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`} onClick={handleFavoriteClick} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

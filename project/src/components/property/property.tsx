@@ -4,48 +4,77 @@ import CommentForm from '../comment-form/comment-form';
 import Map from '../map/map';
 import PlaceList from '../place-list/place-list';
 import Header from '../header/header';
-import {useEffect} from 'react';
-import {useParams} from 'react-router-dom';
-import {connect, ConnectedProps} from 'react-redux';
-import {State} from '../../types/state';
-import {ThunkAppDispatch} from '../../types/action';
-import {fetchOffer, fetchOffersNearby, fetchReviews} from '../../store/api-action';
-import {AuthorizationStatus, PlaceType, MapType} from '../../const';
+import {useEffect, useMemo} from 'react';
+import {useHistory, useParams} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {changeFavoriteStatus, fetchOffer, fetchOffersNearby, fetchReviews} from '../../store/api-action';
+import {AuthorizationStatus, PlaceType, MapType, AppRoute} from '../../const';
 import Spinner from '../spinner/spinner';
 import NotFound from '../not-found/not-found';
+import { getIsOfferError, getIsOfferLoading, getIsOffersNearbyLoaded, getOffer, getOfferNearby } from '../../store/offer-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
+import { getIsReviewsLoaded, getReviews } from '../../store/review-data/selectors';
+import { updateOffer, updateOffersNearby } from '../../store/action';
 
 const MAX_IMAGES_COUNT = 6;
 
-const mapStateToProps = ({authorizationStatus, offer, offersNearby, reviews, isOfferLoading, isOfferError, isOffersNearbyLoaded, isReviewsLoaded}: State) => ({
-  authorizationStatus,
-  offer,
-  offersNearby,
-  reviews,
-  isOfferLoading,
-  isOfferError,
-  isOffersNearbyLoaded,
-  isReviewsLoaded,
-});
+function Property(): JSX.Element {
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  handleFetchOffer: (id: string) => dispatch(fetchOffer(id)),
-  handleFetchOffersNearby: (id: string) => dispatch(fetchOffersNearby(id)),
-  handleFetchReviews: (id: string) => dispatch(fetchReviews(id)),
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Property(props: PropsFromRedux): JSX.Element {
-  const {authorizationStatus, offer, offersNearby, reviews, isOfferLoading, isOfferError, isOffersNearbyLoaded, isReviewsLoaded, handleFetchOffer, handleFetchOffersNearby, handleFetchReviews} = props;
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const offer = useSelector(getOffer);
+  const offersNearby = useSelector(getOfferNearby);
+  const reviews = useSelector(getReviews);
+  const isOfferLoading = useSelector(getIsOfferLoading);
+  const isOfferError = useSelector(getIsOfferError);
+  const isOffersNearbyLoaded = useSelector(getIsOffersNearbyLoaded);
+  const isReviewsLoaded = useSelector(getIsReviewsLoaded);
 
   const {id} = useParams<{id: string}>();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleFavoriteClick = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      history.push(AppRoute.SignIn);
+      return;
+    }
+    if (offer) {
+      dispatch(changeFavoriteStatus(
+        offer.id,
+        offer.isFavorite,
+        (updatedOffer) => {
+          dispatch(updateOffer(updatedOffer));
+        },
+      ));
+    }
+  };
+
+  const handleNearbyOfferFavoriteClick = (offerId: number, isFavorite: boolean) => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      history.push(AppRoute.SignIn);
+      return;
+    }
+    dispatch(changeFavoriteStatus(
+      offerId,
+      isFavorite,
+      (updatedOffer) => {
+        dispatch(updateOffersNearby(updatedOffer));
+      },
+    ));
+  };
 
   useEffect(() => {
-    handleFetchOffer(id);
-    handleFetchOffersNearby(id);
-    handleFetchReviews(id);
-  },[handleFetchOffer, handleFetchOffersNearby, handleFetchReviews, id]);
+    dispatch(fetchOffer(id));
+    dispatch(fetchOffersNearby(id));
+    dispatch(fetchReviews(id));
+  },[dispatch, id]);
+
+  const offers = useMemo(() => {
+    if (!offer) {
+      return [];
+    }
+    return [...offersNearby, offer];
+  }, [offer, offersNearby]);
 
   const renderOffer = () => {
 
@@ -72,7 +101,7 @@ function Property(props: PropsFromRedux): JSX.Element {
                 {isPremium && <div className="property__mark"><span>Premium</span></div>}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">{title}</h1>
-                  <button className={`property__bookmark-button button ${isFavorite ? 'property__bookmark-button--active' : ''}`} type="button">
+                  <button className={`property__bookmark-button button ${isFavorite ? 'property__bookmark-button--active' : ''}`} type="button" onClick={handleFavoriteClick}>
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
@@ -121,7 +150,7 @@ function Property(props: PropsFromRedux): JSX.Element {
                 </section>
               </div>
             </div>
-            {!isOffersNearbyLoaded ? <Spinner /> : <Map offers={offersNearby} mapType={MapType.Property}/>}
+            {!isOffersNearbyLoaded ? <Spinner /> : <Map offers={offers} mapType={MapType.Property}/>}
           </section>
           {!isOffersNearbyLoaded ?
             <Spinner /> :
@@ -129,7 +158,7 @@ function Property(props: PropsFromRedux): JSX.Element {
               <section className="near-places places">
                 <h2 className="near-places__title">Other places in the neighbourhood</h2>
                 <div className="near-places__list places__list">
-                  <PlaceList offers={offersNearby} placeType={PlaceType.Near} />
+                  <PlaceList offers={offersNearby} placeType={PlaceType.Near} handleFavoriteClick={handleNearbyOfferFavoriteClick}/>
                 </div>
               </section>
             </div>}
@@ -152,5 +181,4 @@ function Property(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {Property};
-export default connector(Property);
+export default Property;

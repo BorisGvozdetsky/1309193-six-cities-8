@@ -1,9 +1,9 @@
 import {toast} from 'react-toastify';
 import {ThunkActionResult} from '../types/action';
-import {loadOffers, redirectToRoute, requireLogout, userLogin, loadOffer, loadOfferComplete, loadOfferError, loadOffersNearby, loadReviews, uploadReview} from './action';
+import {loadOffers, redirectToRoute, requireLogout, userLogin, loadOffer, loadOfferComplete, loadOfferError, loadOffersNearby, loadReviews, uploadReview, updateOffers, loadFavorites, resetOffers} from './action';
 import {saveToken, dropToken} from '../services/token';
 import {APIRoute, AppRoute, ServiceMessage, SERVER_RESPONSE_OK, ReviewStatus} from '../const';
-import {OfferResponse} from '../types/offer';
+import {Offer, OfferResponse} from '../types/offer';
 import {AuthData} from '../types/auth-data';
 import {UserResponse} from '../types/user';
 import {PostReview, ReviewFromServer} from '../types/review';
@@ -11,8 +11,12 @@ import {adaptOfferToClient, adaptReviewToClient, adaptUserToClient} from '../ser
 
 const fetchOffers = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<OfferResponse[]>(APIRoute.Offers);
-    dispatch(loadOffers(data.map((offer) => adaptOfferToClient(offer))));
+    try{
+      const {data} = await api.get<OfferResponse[]>(APIRoute.Offers);
+      dispatch(loadOffers(data.map((offer) => adaptOfferToClient(offer))));
+    } catch {
+      toast.error(ServiceMessage.ServerFail);
+    }
   };
 
 const fetchOffer = (id: string): ThunkActionResult =>
@@ -42,8 +46,7 @@ const postReview = ({comment, rating} : PostReview, id: string): ThunkActionResu
   async (dispatch, _getState, api) => {
     dispatch(uploadReview(ReviewStatus.Uploading));
     try {
-      await api.post<ReviewFromServer[]>(`${APIRoute.Comments}/${id}`, {comment, rating});
-      const {data} = await api.get<ReviewFromServer[]>(`${APIRoute.Comments}/${id}`);
+      const {data} = await api.post<ReviewFromServer[]>(`${APIRoute.Comments}/${id}`, {comment, rating});
       dispatch(loadReviews(data.map((review)=> adaptReviewToClient(review))));
       dispatch(uploadReview(ReviewStatus.Uploaded));
     }
@@ -82,6 +85,20 @@ const logout = (): ThunkActionResult =>
     api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireLogout());
+    dispatch(resetOffers());
   };
 
-export {fetchOffers, fetchOffer, fetchOffersNearby, fetchReviews, postReview, checkAuth, login, logout};
+const fetchFavorites = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<OfferResponse[]>(APIRoute.Favorite);
+    dispatch(loadFavorites(data.map((offer) => adaptOfferToClient(offer))));
+  };
+
+const changeFavoriteStatus = (id: number, isFavorite: boolean, onUpdate?: (updatedOffer: Offer) => void): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    const {data} = await api.post<OfferResponse>(`${APIRoute.Favorite}/${id}/${Number(!isFavorite)}`);
+    dispatch(updateOffers(adaptOfferToClient(data)));
+    onUpdate && onUpdate(adaptOfferToClient(data));
+  };
+
+export {fetchOffers, fetchOffer, fetchOffersNearby, fetchReviews, postReview, checkAuth, login, logout, changeFavoriteStatus, fetchFavorites};
