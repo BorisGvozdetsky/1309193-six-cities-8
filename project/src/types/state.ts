@@ -2,7 +2,7 @@ import { AuthorizationStatus, ReviewStatus, SortType } from '../const';
 import { RootState } from '../store/root-reducer';
 import { Offer } from './offer';
 import { Reviews } from './review';
-import {User} from './user';
+import { User } from './user';
 
 type AppData = {
   currentCity: string;

@@ -1,14 +1,14 @@
-import { addRatingPercent } from '../../utils/utils';
+import { addRatingPercent, capitalizeString } from '../../utils/utils';
 import CommentList from '../comment-list/comment-list';
 import CommentForm from '../comment-form/comment-form';
 import Map from '../map/map';
 import PlaceList from '../place-list/place-list';
 import Header from '../header/header';
-import {useEffect, useMemo} from 'react';
-import {useHistory, useParams} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import {changeFavoriteStatus, fetchOffer, fetchOffersNearby, fetchReviews} from '../../store/api-action';
-import {AuthorizationStatus, PlaceType, MapType, AppRoute} from '../../const';
+import { useEffect, useMemo } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFavoriteStatus, fetchOffer, fetchOffersNearby, fetchReviews } from '../../store/api-action';
+import { AuthorizationStatus, PlaceType, MapType, AppRoute } from '../../const';
 import Spinner from '../spinner/spinner';
 import NotFound from '../not-found/not-found';
 import { getIsOfferError, getIsOfferLoading, getIsOffersNearbyLoaded, getOffer, getOfferNearby } from '../../store/offer-data/selectors';
@@ -116,7 +116,7 @@ function Property(): JSX.Element {
                   <span className="property__rating-value rating__value">{rating}</span>
                 </div>
                 <ul className="property__features">
-                  <li className="property__feature property__feature--entire">{type}</li>
+                  <li className="property__feature property__feature--entire">{capitalizeString(type)}</li>
                   <li className="property__feature property__feature--bedrooms">{bedrooms} Bedrooms</li>
                   <li className="property__feature property__feature--adults">Max {maxAdults} adults</li>
                 </ul>
@@ -150,7 +150,7 @@ function Property(): JSX.Element {
                 </section>
               </div>
             </div>
-            {!isOffersNearbyLoaded ? <Spinner /> : <Map offers={offers} mapType={MapType.Property}/>}
+            {!isOffersNearbyLoaded ? <Spinner /> : <Map offers={offers} mapType={MapType.Property} selectedOffer={offer}/>}
           </section>
           {!isOffersNearbyLoaded ?
             <Spinner /> :
@@ -158,7 +158,7 @@ function Property(): JSX.Element {
               <section className="near-places places">
                 <h2 className="near-places__title">Other places in the neighbourhood</h2>
                 <div className="near-places__list places__list">
-                  <PlaceList offers={offersNearby} placeType={PlaceType.Near} handleFavoriteClick={handleNearbyOfferFavoriteClick}/>
+                  <PlaceList offers={offersNearby} placeType={PlaceType.Near} onFavoriteClick={handleNearbyOfferFavoriteClick}/>
                 </div>
               </section>
             </div>}

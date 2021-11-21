@@ -1,6 +1,6 @@
-import {createReducer} from '@reduxjs/toolkit';
-import {FavoritesData} from '../../types/state';
-import {loadFavorites, updateFavorites} from '../action';
+import { createReducer } from '@reduxjs/toolkit';
+import { FavoritesData } from '../../types/state';
+import { loadFavorites, updateFavorites } from '../action';
 
 const initialState: FavoritesData = {
   offersFavorite: [],

@@ -23,7 +23,7 @@ function PageMain(): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Header isPageLogin={false}/>
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${hasNoOffers ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList currentCity={currentCity} handleCitySwitch={handleCitySwitch}/>
         {!isDataLoaded ? <Spinner/> : <PlaceContainer currentCity={currentCity} cityOffers={offers} hasNoOffers={hasNoOffers}/>}
@@ -33,4 +33,3 @@ function PageMain(): JSX.Element {
 }
 
 export default PageMain;
-

@@ -48,10 +48,15 @@ enum ReviewStatus {
 }
 
 enum ServiceMessage {
-  AuthFail = 'Do not forget to authirize',
+  AuthFail = 'Do not forget to authorize',
   LoginFail = 'Please fill in all the fields correctly',
   PostReviewFail = 'Something went wrong, try again',
-  ServerFail = 'the server is not responding'
+  ServerFail = 'Server is not responding'
 }
 
-export {AppRoute, AuthorizationStatus, MapType, PlaceType, APIRoute, SortType, ReviewStatus, ServiceMessage, CITIES, SERVER_RESPONSE_OK};
+enum CommentLength  {
+  Min = 50,
+  Max = 300,
+}
+
+export {AppRoute, AuthorizationStatus, MapType, PlaceType, APIRoute, SortType, ReviewStatus, ServiceMessage, CommentLength, CITIES, SERVER_RESPONSE_OK};

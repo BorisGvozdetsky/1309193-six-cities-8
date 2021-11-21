@@ -7,8 +7,8 @@ import { createAPI } from './services/api';
 import { requireLogout } from './store/action';
 import { configureStore } from '@reduxjs/toolkit';
 import { checkAuth, fetchOffers } from './store/api-action';
-import {redirect} from './store/middlewares/redirect';
-import {ToastContainer} from 'react-toastify';
+import { redirect } from './store/middlewares/redirect';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const api = createAPI(

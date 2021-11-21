@@ -1,7 +1,6 @@
 import { Offer, OfferResponse } from '../types/offer';
 import { User, UserResponse } from '../types/user';
-import {Review, ReviewFromServer} from '../types/review';
-
+import { Review, ReviewFromServer } from '../types/review';
 
 const adaptOfferToClient = (offer: OfferResponse): Offer => ({
   bedrooms: offer.bedrooms,

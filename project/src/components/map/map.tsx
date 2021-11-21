@@ -1,10 +1,10 @@
-import {useRef, useEffect, useMemo} from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/use-map/useMap';
-import {Offer} from '../../types/offer';
-import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from './const';
-import {MapType} from '../../const';
+import { Offer } from '../../types/offer';
+import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from './const';
+import { MapType } from '../../const';
 
 type MapProps = {
   offers: Offer[];
@@ -29,6 +29,7 @@ function Map(props: MapProps): JSX.Element {
   const city = useMemo(() => offers[0], [offers]);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+
   const isCityMap = mapType === MapType.City;
   const isPropertyMap = mapType === MapType.Property;
 

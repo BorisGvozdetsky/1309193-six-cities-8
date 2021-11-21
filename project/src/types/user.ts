@@ -1,4 +1,4 @@
-import {Token} from '../services/token';
+import { Token } from '../services/token';
 
 type User = {
   avatarUrl: string;

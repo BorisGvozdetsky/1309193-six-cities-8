@@ -12,6 +12,7 @@ const userDataReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(requireLogout, (state) => {
       state.authorizationStatus = AuthorizationStatus.NoAuth;
+      state.user = null;
     })
     .addCase(userLogin, (state, action) => {
       state.user = action.payload;

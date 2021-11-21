@@ -2,7 +2,7 @@ import { AppRoute, ReviewStatus, SortType } from '../const';
 import { ActionType } from '../types/action';
 import { Offer } from '../types/offer';
 import { User } from '../types/user';
-import {Reviews} from '../types/review';
+import { Reviews } from '../types/review';
 import { createAction } from '@reduxjs/toolkit';
 
 const setSortType = createAction(

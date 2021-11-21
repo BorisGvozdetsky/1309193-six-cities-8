@@ -1,6 +1,6 @@
-import {useEffect, useState, MutableRefObject} from 'react';
-import {Map, TileLayer} from 'leaflet';
-import {Offer} from '../../types/offer';
+import { useEffect, useState, MutableRefObject } from 'react';
+import { Map, TileLayer } from 'leaflet';
+import { Offer } from '../../types/offer';
 
 const CITY_ZOOM = 13;
 

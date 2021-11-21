@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute, PlaceType } from '../../const';
-import {Offer} from '../../types/offer';
-import { addRatingPercent } from '../../utils/utils';
+import { Offer } from '../../types/offer';
+import { addRatingPercent, capitalizeString } from '../../utils/utils';
 
 const CardImageSize = {
   default: {
@@ -85,7 +85,7 @@ function Place(props: PlaceProps): JSX.Element {
         <h2 className="place-card__name">
           <Link to={`${AppRoute.Room}/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalizeString(type)}</p>
       </div>
     </article>
   );

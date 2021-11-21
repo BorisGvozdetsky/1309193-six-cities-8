@@ -1,13 +1,13 @@
-import {toast} from 'react-toastify';
-import {ThunkActionResult} from '../types/action';
-import {loadOffers, redirectToRoute, requireLogout, userLogin, loadOffer, loadOfferComplete, loadOfferError, loadOffersNearby, loadReviews, uploadReview, updateOffers, loadFavorites, resetOffers} from './action';
-import {saveToken, dropToken} from '../services/token';
-import {APIRoute, AppRoute, ServiceMessage, SERVER_RESPONSE_OK, ReviewStatus} from '../const';
-import {Offer, OfferResponse} from '../types/offer';
-import {AuthData} from '../types/auth-data';
-import {UserResponse} from '../types/user';
-import {PostReview, ReviewFromServer} from '../types/review';
-import {adaptOfferToClient, adaptReviewToClient, adaptUserToClient} from '../services/adapter';
+import { toast } from 'react-toastify';
+import { ThunkActionResult } from '../types/action';
+import { loadOffers, redirectToRoute, requireLogout, userLogin, loadOffer, loadOfferComplete, loadOfferError, loadOffersNearby, loadReviews, uploadReview, updateOffers, loadFavorites, resetOffers } from './action';
+import { saveToken, dropToken } from '../services/token';
+import { APIRoute, AppRoute, ServiceMessage, SERVER_RESPONSE_OK, ReviewStatus } from '../const';
+import { Offer, OfferResponse } from '../types/offer';
+import { AuthData } from '../types/auth-data';
+import { UserResponse } from '../types/user';
+import { PostReview, ReviewFromServer } from '../types/review';
+import { adaptOfferToClient, adaptReviewToClient, adaptUserToClient } from '../services/adapter';
 
 const fetchOffers = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -27,19 +27,28 @@ const fetchOffer = (id: string): ThunkActionResult =>
       dispatch(loadOfferComplete(adaptOfferToClient(data)));
     } catch {
       dispatch(loadOfferError());
+      toast.error(ServiceMessage.ServerFail);
     }
   };
 
 const fetchOffersNearby = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<OfferResponse[]>(`${APIRoute.Offers}/${id}/nearby`);
-    dispatch(loadOffersNearby(data.map((offer) => adaptOfferToClient(offer))));
+    try {
+      const {data} = await api.get<OfferResponse[]>(`${APIRoute.Offers}/${id}/nearby`);
+      dispatch(loadOffersNearby(data.map((offer) => adaptOfferToClient(offer))));
+    } catch {
+      toast.error(ServiceMessage.ServerFail);
+    }
   };
 
 const fetchReviews = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<ReviewFromServer[]>(`${APIRoute.Comments}/${id}`);
-    dispatch(loadReviews(data.map((review) => adaptReviewToClient(review))));
+    try {
+      const {data} = await api.get<ReviewFromServer[]>(`${APIRoute.Comments}/${id}`);
+      dispatch(loadReviews(data.map((review) => adaptReviewToClient(review))));
+    } catch {
+      toast.error(ServiceMessage.ServerFail);
+    }
   };
 
 const postReview = ({comment, rating} : PostReview, id: string): ThunkActionResult =>
@@ -90,15 +99,23 @@ const logout = (): ThunkActionResult =>
 
 const fetchFavorites = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<OfferResponse[]>(APIRoute.Favorite);
-    dispatch(loadFavorites(data.map((offer) => adaptOfferToClient(offer))));
+    try {
+      const {data} = await api.get<OfferResponse[]>(APIRoute.Favorite);
+      dispatch(loadFavorites(data.map((offer) => adaptOfferToClient(offer))));
+    } catch {
+      toast.error(ServiceMessage.ServerFail);
+    }
   };
 
 const changeFavoriteStatus = (id: number, isFavorite: boolean, onUpdate?: (updatedOffer: Offer) => void): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const {data} = await api.post<OfferResponse>(`${APIRoute.Favorite}/${id}/${Number(!isFavorite)}`);
-    dispatch(updateOffers(adaptOfferToClient(data)));
-    onUpdate && onUpdate(adaptOfferToClient(data));
+    try{
+      const {data} = await api.post<OfferResponse>(`${APIRoute.Favorite}/${id}/${Number(!isFavorite)}`);
+      dispatch(updateOffers(adaptOfferToClient(data)));
+      onUpdate && onUpdate(adaptOfferToClient(data));
+    } catch {
+      toast.error(ServiceMessage.ServerFail);
+    }
   };
 
 export {fetchOffers, fetchOffer, fetchOffersNearby, fetchReviews, postReview, checkAuth, login, logout, changeFavoriteStatus, fetchFavorites};

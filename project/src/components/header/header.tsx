@@ -1,6 +1,6 @@
 import Logo from '../logo/logo';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { Link } from 'react-router-dom';
 import { logout } from '../../store/api-action';
 import { getAuthorizationStatus, getUser } from '../../store/user-data/selectors';
@@ -47,7 +47,7 @@ function Header(props: HeaderProps): JSX.Element {
                 </ul> :
                 <ul className="header__nav-list">
                   <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to={AppRoute.SignIn}>
+                    <Link to={AppRoute.SignIn} className="header__nav-link header__nav-link--profile">
                       <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                       <span className="header__login">Sign in</span>
                     </Link>

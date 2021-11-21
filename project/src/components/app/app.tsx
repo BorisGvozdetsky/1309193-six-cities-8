@@ -1,5 +1,5 @@
-import { AppRoute} from '../../const';
-import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
 import Favorites from '../favorites/favorites';
 import Property from '../property/property';
 import PageMain from '../page-main/page-main';

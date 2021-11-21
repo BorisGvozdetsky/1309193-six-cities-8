@@ -63,7 +63,7 @@ function Favorites(): JSX.Element {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    <PlaceList offers={cityOffers} placeType={PlaceType.Favorite} handleFavoriteClick={handleFavoriteClick}/>
+                    <PlaceList offers={cityOffers} placeType={PlaceType.Favorite} onFavoriteClick={handleFavoriteClick}/>
                   </div>
                 </li>
               );

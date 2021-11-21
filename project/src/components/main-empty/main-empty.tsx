@@ -1,4 +1,3 @@
-
 type MainEmptyProps = {
   cityName: string;
 }

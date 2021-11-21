@@ -2,7 +2,6 @@ type CityLocation = {
   latitude: number;
   longitude: number;
   zoom: number;
-
 }
 
 type City = {

@@ -1,24 +1,25 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import { appDataReducer } from './app-data/app-data';
 import { favoriteDataReducer } from './favorites-data/favorites-data';
 import { offerDataReducer } from './offer-data/offer-data';
 import { reviewDataReducer } from './review-data/review-data';
 import { userDataReducer } from './user-data/user-data';
 
-export enum NameSpace {
-  app = 'APP',
-  offer = 'OFFER',
-  review = 'REVIEW',
-  user = 'USER',
-  favorites = 'FAVORITE',
+enum NameSpace {
+  App = 'APP',
+  Offer = 'OFFER',
+  Review = 'REVIEW',
+  User = 'USER',
+  Favorites = 'FAVORITE',
 }
 
-export const rootReducer = combineReducers({
-  [NameSpace.app]: appDataReducer,
-  [NameSpace.offer]: offerDataReducer,
-  [NameSpace.review]: reviewDataReducer,
-  [NameSpace.user]: userDataReducer,
-  [NameSpace.favorites]: favoriteDataReducer,
+const rootReducer = combineReducers({
+  [NameSpace.App]: appDataReducer,
+  [NameSpace.Offer]: offerDataReducer,
+  [NameSpace.Review]: reviewDataReducer,
+  [NameSpace.User]: userDataReducer,
+  [NameSpace.Favorites]: favoriteDataReducer,
 });
 
+export {NameSpace, rootReducer};
 export type RootState = ReturnType<typeof rootReducer>;

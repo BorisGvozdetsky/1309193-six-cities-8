@@ -1,18 +1,18 @@
-import {Offer} from '../../types/offer';
+import { Offer } from '../../types/offer';
 import Place from '../place/place';
 
 type PlaceListProps = {
   offers: Offer[];
   placeType: string;
-  handlePlaceMouseEnter?: (placeId: number) => void;
-  handlePlaceMouseLeave?: () => void;
-  handleFavoriteClick?: (offerId: number, isFavorite: boolean) => void;
+  onPlaceMouseEnter?: (placeId: number) => void;
+  onPlaceMouseLeave?: () => void;
+  onFavoriteClick?: (offerId: number, isFavorite: boolean) => void;
 }
 
-function PlaceList({offers, placeType, handlePlaceMouseEnter, handlePlaceMouseLeave, handleFavoriteClick}: PlaceListProps): JSX.Element {
+function PlaceList({offers, placeType, onPlaceMouseEnter, onPlaceMouseLeave, onFavoriteClick}: PlaceListProps): JSX.Element {
   return (
     <>
-      {offers.map((offer) => <Place key={offer.id} offer={offer} placeType={placeType} onMouseEnter={handlePlaceMouseEnter} onMouseLeave={handlePlaceMouseLeave} onFavoriteClick={handleFavoriteClick}/>)}
+      {offers.map((offer) => <Place key={offer.id} offer={offer} placeType={placeType} onMouseEnter={onPlaceMouseEnter} onMouseLeave={onPlaceMouseLeave} onFavoriteClick={onFavoriteClick}/>)}
     </>
   );
 }
