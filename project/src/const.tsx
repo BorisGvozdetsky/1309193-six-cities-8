@@ -22,6 +22,7 @@ enum MapType {
 enum PlaceType {
   City = 'CITY',
   Near = 'NEAR',
+  Favorite = 'FAVORITE'
 }
 
 enum SortType {
@@ -36,6 +37,7 @@ enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
+  Favorite = '/favorite',
 }
 
 enum ReviewStatus {
@@ -49,6 +51,7 @@ enum ServiceMessage {
   AuthFail = 'Do not forget to authirize',
   LoginFail = 'Please fill in all the fields correctly',
   PostReviewFail = 'Something went wrong, try again',
+  ServerFail = 'the server is not responding'
 }
 
 export {AppRoute, AuthorizationStatus, MapType, PlaceType, APIRoute, SortType, ReviewStatus, ServiceMessage, CITIES, SERVER_RESPONSE_OK};

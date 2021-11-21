@@ -1,34 +1,31 @@
 import { login } from '../../store/api-action';
-import { ThunkAppDispatch } from '../../types/action';
-import { AuthData } from '../../types/auth-data';
-import { State } from '../../types/state';
 import Header from '../header/header';
-import {connect, ConnectedProps} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { FormEvent, useRef } from 'react';
+import { getCurrentCity } from '../../store/app-data/selectors';
 
-const validatePassword = (password: string) => {
+const validatePassword = (password: string): string => {
+  const passwordReg = /(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+/;
   if (password.includes(' ')) {
-    return 'Spaces are not allowed in password field';
+    return 'Spaces are not allowed in password';
+  }
+  if (!passwordReg.test(password)) {
+    return 'Password must contain at least one letter and a number';
   }
   return '';
 };
 
-const mapStateToProps = ({currentCity}: State) => ({
-  currentCity,
-});
+const validateEmail = (email: string): string => {
+  const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (!emailRegex.test(email)) {
+    return 'Please enter valid email';
+  }
+  return '';
+};
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
-    dispatch(login(authData));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Login(props: PropsFromRedux): JSX.Element {
-  const {currentCity, onSubmit} = props;
+function Login(): JSX.Element {
+  const currentCity = useSelector(getCurrentCity);
+  const dispatch = useDispatch();
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -36,16 +33,20 @@ function Login(props: PropsFromRedux): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current  ) {
-      onSubmit({
+    if (loginRef.current && passwordRef.current) {
+      dispatch(login({
         login: loginRef.current.value,
         password: passwordRef.current.value,
-      });
+      }));
     }
   };
 
-  const handleInputChange = () => {
-    if (loginRef.current !== null && passwordRef.current !== null) {
+  const handleInputChange = (evt: FormEvent<HTMLFormElement>) => {
+    if (evt.target === loginRef.current) {
+      loginRef.current.setCustomValidity(validateEmail(loginRef.current.value));
+      loginRef.current.reportValidity();
+    }
+    if (evt.target === passwordRef.current) {
       passwordRef.current.setCustomValidity(validatePassword(passwordRef.current.value));
       passwordRef.current.reportValidity();
     }
@@ -83,5 +84,4 @@ function Login(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {Login};
-export default connector(Login);
+export default Login;

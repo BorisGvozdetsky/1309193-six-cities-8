@@ -1,24 +1,40 @@
 import { AuthorizationStatus, ReviewStatus, SortType } from '../const';
+import { RootState } from '../store/root-reducer';
 import { Offer } from './offer';
 import { Reviews } from './review';
 import {User} from './user';
 
-type State = {
+type AppData = {
   currentCity: string;
-  offers: Offer[];
   activeSortType: SortType;
-  authorizationStatus: AuthorizationStatus;
+}
+
+type OfferData = {
+  offers: Offer[];
   isDataLoaded: boolean;
-  user: User | null;
-  reviewStatus: ReviewStatus;
   offer: Offer | null;
   offersNearby: Offer[];
-  reviews: Reviews;
   isOfferLoading: boolean;
   isOfferError: boolean;
   isOffersNearbyLoaded: boolean;
+}
+
+type ReviewData = {
+  reviewStatus: ReviewStatus;
+  reviews: Reviews;
   isReviewsLoaded: boolean;
   isPostReviewError: boolean;
+}
+
+type UserData = {
+  authorizationStatus: AuthorizationStatus;
+  user: User | null;
+}
+
+type FavoritesData = {
+  offersFavorite: Offer[];
+  isOffersFavoriteLoaded: boolean;
 };
 
-export type {State};
+export type {AppData, OfferData, ReviewData, UserData, FavoritesData};
+export type State = RootState;

@@ -4,6 +4,7 @@ type CityLocation = {
   zoom: number;
 
 }
+
 type City = {
   location: CityLocation;
   name: string;
