@@ -103,7 +103,7 @@ const fetchFavorites = (): ThunkActionResult =>
       const {data} = await api.get<OfferResponse[]>(APIRoute.Favorite);
       dispatch(loadFavorites(data.map((offer) => adaptOfferToClient(offer))));
     } catch {
-      toast.error(ServiceMessage.ServerFail);
+      toast.warn(ServiceMessage.AuthFail);
     }
   };
 

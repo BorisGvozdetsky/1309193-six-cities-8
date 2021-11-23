@@ -15,11 +15,11 @@ function Sort(): JSX.Element {
 
   const [sortOptionActive, setSortOptionActive] = useState(false);
   const sortRef = useRef<HTMLFormElement | null >(null);
-  const toggleSortDropdown = () => setSortOptionActive((prevSortOption) => !prevSortOption);
+  const handleSortDropdown = () => setSortOptionActive((prevSortOption) => !prevSortOption);
   return (
     <form className="places__sorting" action="#" method="get" ref={sortRef}>
       <span className="places__sorting-caption">Sort by </span>
-      <span className="places__sorting-type" tabIndex={0} onClick={toggleSortDropdown}>
+      <span className="places__sorting-type" tabIndex={0} onClick={handleSortDropdown}>
         {activeSortType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>

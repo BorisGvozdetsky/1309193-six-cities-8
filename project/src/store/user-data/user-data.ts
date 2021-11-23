@@ -4,7 +4,7 @@ import { UserData } from '../../types/state';
 import { requireLogout, userLogin } from '../action';
 
 const initialState: UserData = {
-  authorizationStatus: AuthorizationStatus.Unknown,
+  authorizationStatus: AuthorizationStatus.Auth,
   user: null,
 };
 

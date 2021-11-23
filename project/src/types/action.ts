@@ -16,7 +16,6 @@ enum ActionType {
   LoadOfferError = 'data/loadOfferError',
   LoadOffersNearby = 'data/loadOffersNearby',
   LoadReviews = 'data/loadReviews',
-  UserLogout = 'user/logout',
   UpdateOffer = 'data/updateOffer',
   UpdateOffers = 'data/updateOffers',
   UpdateOffersNearby = 'data/updateOfferNearby',

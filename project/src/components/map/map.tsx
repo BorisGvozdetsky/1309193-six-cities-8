@@ -1,7 +1,7 @@
 import { useRef, useEffect, useMemo } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import useMap from '../../hooks/use-map/useMap';
+import useMap from '../../hooks/use-map/use-map';
 import { Offer } from '../../types/offer';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from './const';
 import { MapType } from '../../const';
